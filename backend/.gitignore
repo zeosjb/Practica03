@@ -1,0 +1,14 @@
+# Node.js
+node_modules/
+
+# Configuración local
+.env
+
+# Logs y archivos temporales
+logs/
+*.log
+npm-debug.log*
+
+# Archivos generados en tiempo de construcción
+dist/
+build/
