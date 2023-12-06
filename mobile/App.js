@@ -82,12 +82,12 @@ export default function App() {
         <Avatar.Icon size={100} icon="account-circle" />
         <Title>{userData?.name} {userData?.lastName}</Title>
 
-        <View style={styles.infoContainer}>
+        <View style={styles}>
           <Paragraph>{userData?.summary}</Paragraph>
         </View>
 
+        <Text style={styles.infoTitle}>Información Personal:</Text>
         <View style={styles.infoContainer}>
-          <Text style={styles.infoTitle}>Información Personal:</Text>
           <TouchableOpacity onPress={() => handlePress('edad')} style={styles.infoButton}>
             <Text>Edad</Text>
           </TouchableOpacity>
@@ -112,15 +112,14 @@ export default function App() {
           ))}
         </View>
 
-        {/* Agrega la tabla de frameworks desde la API */}
         <Text style={styles.sectionTitle}>Frameworks</Text>
         <View style={styles.tableContainer}>
           <View style={styles.tableHeader}>
-            <Text style={styles.tableHeaderText}>Index</Text>
-            <Text style={styles.tableHeaderText}>Name</Text>
-            <Text style={styles.tableHeaderText}>Level</Text>
-            <Text style={styles.tableHeaderText}>Year</Text>
-            <Text style={styles.tableHeaderText}>Percentage</Text>
+            <Text style={styles.tableHeaderText}>Indice</Text>
+            <Text style={styles.tableHeaderText}>Nombre</Text>
+            <Text style={styles.tableHeaderText}>Nivel</Text>
+            <Text style={styles.tableHeaderText}>Año</Text>
+            <Text style={styles.tableHeaderText}>Porcentaje</Text>
           </View>
           {frameworksData.map((framework, index) => (
             <View key={index} style={styles.tableRow}>
@@ -129,7 +128,6 @@ export default function App() {
               <Text>{framework.level}</Text>
               <Text>{framework.year}</Text>
               <View style={styles.progressBarContainer}>
-                <View style={{ width: `${framework.percentage}%`, ...styles.progressBar }} />
                 <Text>{framework.percentage}%</Text>
               </View>
             </View>
@@ -172,7 +170,9 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   infoContainer: {
-    marginBottom: 20,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   infoTitle: {
     fontSize: 18,
@@ -183,9 +183,10 @@ const styles = StyleSheet.create({
     width: 'auto',
     height: 'auto',
     backgroundColor: 'lightgray',
-    padding: 10,
+    padding: 'auto',
     marginVertical: 5,
     borderRadius: 10,
+    marginHorizontal: 20,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -211,11 +212,13 @@ const styles = StyleSheet.create({
   },
   tableContainer: {
     width: '100%',
+    alignSelf: 'center',
     borderWidth: 1,
     borderColor: 'lightgray',
     borderRadius: 10,
     marginTop: 10,
     overflow: 'hidden',
+    marginBottom: 20,
   },
   tableHeader: {
     flexDirection: 'row',
