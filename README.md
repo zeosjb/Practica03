@@ -56,7 +56,7 @@ Este es la aplicación movil de mi perfil, en ellas se encuentran el backend y e
 
 9. **Cambia la dirección de la API:**
 
-    Dentro de la carpeta src/api en el archivo hay un const baseURL, cambialo dependiendo de tu dirección de IPv4 = "http://<Direccion>:<Puerto>/api/profile". Para conseguir esta IP realizar:
+    Dentro de la carpeta src/api en el archivo hay un const baseURL, cambialo dependiendo de tu dirección de IPv4 = "http://Direccion:Puerto/api/profile". Para conseguir esta IP realizar:
     ```bash
     ipconfig
 
