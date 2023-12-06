@@ -1,10 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View, TouchableOpacity, ScrollView } from 'react-native';
-import { Avatar, Text, Title, Paragraph, Provider as PaperProvider, Modal, Button, IconButton } from 'react-native-paper';
+import { StyleSheet, View, ScrollView } from 'react-native';
+import { Avatar, Title, Paragraph, Provider as PaperProvider, Modal } from 'react-native-paper';
 import { StatusBar } from 'expo-status-bar';
-import { Image } from 'react-native';
+
 
 import userApi from './src/api/userApi';
+import UserInfo from './src/components/UserInfo';
+import HobbiesSection from './src/components/HobbieSection';
+import FrameworksSection from './src/components/FrameworkSection';
+import ModalContent from './src/components/ModalContent';
 
 export default function App() {
   const [userData, setUserData] = useState(null);
@@ -17,7 +21,6 @@ export default function App() {
     const fetchData = async () => {
       try {
         const response = await userApi.get('/');
-
         const firstProfile = response.data[0];
 
         if (firstProfile) {
@@ -82,77 +85,25 @@ export default function App() {
         <Avatar.Icon size={100} icon="account-circle" />
         <Title>{userData?.name} {userData?.lastName}</Title>
 
-        <View style={styles}>
+        <View>
           <Paragraph>{userData?.summary}</Paragraph>
         </View>
 
-        <Text style={styles.infoTitle}>Información Personal:</Text>
-        <View style={styles.infoContainer}>
-          <TouchableOpacity onPress={() => handlePress('edad')} style={styles.infoButton}>
-            <Text>Edad</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handlePress('ciudad')} style={styles.infoButton}>
-            <Text>Ciudad</Text>
-          </TouchableOpacity>
-          <TouchableOpacity onPress={() => handlePress('email')} style={styles.infoButton}>
-            <Text>Email</Text>
-          </TouchableOpacity>
-        </View>
+        <UserInfo handlePress={handlePress} userData={userData} styles={styles} />
 
-        <Text style={styles.sectionTitle}>Hobbies</Text>
-        <View style={styles.hobbiesContainer}>
-          {userData?.hobbies.map((hobby, index) => (
-            <TouchableOpacity
-              key={index}
-              style={styles.hobbyBox}
-              onPress={() => handleHobbyPress(hobby)}
-            >
-              <Text>{hobby.name}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
+        <HobbiesSection handleHobbyPress={handleHobbyPress} userData={userData} styles={styles} />
 
-        <Text style={styles.sectionTitle}>Frameworks</Text>
-        <View style={styles.tableContainer}>
-          <View style={styles.tableHeader}>
-            <Text style={styles.tableHeaderText}>Indice</Text>
-            <Text style={styles.tableHeaderText}>Nombre</Text>
-            <Text style={styles.tableHeaderText}>Nivel</Text>
-            <Text style={styles.tableHeaderText}>Año</Text>
-            <Text style={styles.tableHeaderText}>Porcentaje</Text>
-          </View>
-          {frameworksData.map((framework, index) => (
-            <View key={index} style={styles.tableRow}>
-              <Text>{index + 1}</Text>
-              <Text>{framework.name}</Text>
-              <Text>{framework.level}</Text>
-              <Text>{framework.year}</Text>
-              <View style={styles.progressBarContainer}>
-                <Text>{framework.percentage}%</Text>
-              </View>
-            </View>
-          ))}
-        </View>
+        <FrameworksSection frameworksData={frameworksData} styles={styles} />
 
         <Modal visible={modalVisible} onDismiss={closeModal}>
-          <View style={styles.modalContainer}>
-            {selectedHobby && (
-              <>
-                <Image
-                  style={styles.hobbyImage}
-                  source={getImageSource(selectedHobby)}
-                />
-                <Text style={styles.hobbyName}>{selectedHobby.name}</Text>
-                <Text style={styles.hobbyDescription}>{selectedHobby.description}</Text>
-              </>
-            )}
-            {selectedInfo && (
-              <View>
-                <Text>{getInfoText()}</Text>
-              </View>
-            )}
-            <Button onPress={closeModal}>Cerrar</Button>
-          </View>
+          <ModalContent
+            selectedHobby={selectedHobby}
+            selectedInfo={selectedInfo}
+            closeModal={closeModal}
+            getImageSource={getImageSource}
+            getInfoText={getInfoText}
+            styles={styles}
+          />
         </Modal>
 
         <StatusBar style="auto" />
@@ -169,6 +120,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 20,
   },
+  themeButtonContainer: {
+    position: 'absolute',
+    top: 20,
+    right: 20,
+    zIndex: 1,
+  },
   infoContainer: {
     flexDirection: 'row',
     flexWrap: 'wrap',
@@ -183,10 +140,11 @@ const styles = StyleSheet.create({
     width: 'auto',
     height: 'auto',
     backgroundColor: 'lightgray',
-    padding: 'auto',
+    paddingHorizontal: 40,
+    paddingVertical: 7,
     marginVertical: 5,
-    borderRadius: 10,
-    marginHorizontal: 20,
+    borderRadius: 18,
+    marginHorizontal: 2,
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -204,14 +162,15 @@ const styles = StyleSheet.create({
     width: 'auto',
     height: 'auto',
     backgroundColor: 'lightgray',
-    padding: 10,
+    paddingHorizontal: 20,
+    paddingVertical: 7,
     margin: 5,
-    borderRadius: 10,
+    borderRadius: 18,
     alignItems: 'center',
     justifyContent: 'center',
   },
   tableContainer: {
-    width: '100%',
+    width: 350,
     alignSelf: 'center',
     borderWidth: 1,
     borderColor: 'lightgray',
@@ -266,5 +225,8 @@ const styles = StyleSheet.create({
   },
   hobbyDescription: {
     fontSize: 16,
+  },
+  button: {
+    marginTop: 10
   },
 });
