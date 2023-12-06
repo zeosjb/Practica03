@@ -1,0 +1,27 @@
+{
+	"info": {
+		"_postman_id": "6274bdfd-bf87-414e-8756-0ca117184ca1",
+		"name": "Practica03",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26767162",
+		"_collection_link": "https://www.postman.com/gold-station-593555-1/workspace/proyecto-integrador-software/collection/26767162-6274bdfd-bf87-414e-8756-0ca117184ca1?action=share&source=collection_link&creator=26767162"
+	},
+	"item": [
+		{
+			"name": "Obtener perfil",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Editar pefil",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
